@@ -1,40 +1,41 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Cormorant_Garamond, Montserrat } from 'next/font/google';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/layout/WhatsAppButton';
 import { SITE } from '@/lib/site';
 import './globals.css';
 
-/* Bold, geometric display face for headings */
-const outfit = Outfit({
+/* Elegant serif for headings */
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['400', '600', '700', '800'],
+  weight: ['300', '400', '500', '600'],
 });
 
-/* Clean, neutral face for body copy */
-const inter = Inter({
+/* Clean sans for body, navigation and UI */
+const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  weight: ['300', '400', '500', '600'],
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.fullName} | ${SITE.city}`,
+    default: `${SITE.fullName} | ${SITE.area}`,
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
   keywords: [
-    'Harare restaurant',
-    'braai Harare',
-    'Afrobeat nightlife',
-    'live music Harare',
-    'gelato Harare',
-    'bar and grill Zimbabwe',
+    'Afropolitan',
+    'restaurant Harare',
+    'bar and grill Harare',
+    'Madokero restaurant',
+    'dining Zimbabwe',
+    'reserve a table Harare',
   ],
   openGraph: {
     type: 'website',
@@ -43,27 +44,30 @@ export const metadata: Metadata = {
     siteName: SITE.fullName,
     title: SITE.fullName,
     description: SITE.description,
+    images: [{ url: SITE.heroImage, width: 1920, height: 1080, alt: SITE.fullName }],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE.fullName,
     description: SITE.description,
+    images: [SITE.heroImage],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#1A1A1A',
+  themeColor: '#000000',
   width: 'device-width',
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-charcoal-800 selection:bg-terracotta-500">
+    <html lang="en" className={`${cormorant.variable} ${montserrat.variable}`}>
+      {/* pb on mobile clears the fixed WhatsApp bar */}
+      <body className="min-h-screen bg-ink pb-[3.9rem] sm:pb-0">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-gold-400 focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-charcoal-900"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[70] focus:bg-teal-500 focus:px-6 focus:py-3 focus:text-[0.7rem] focus:font-semibold focus:uppercase focus:tracking-[0.2em] focus:text-white"
         >
           Skip to content
         </a>

@@ -1,55 +1,75 @@
 /* ------------------------------------------------------------------ *
- *  Shared domain types
+ *  Contact details
+ *
+ *  Nothing about the real business is invented. Anything Afropolitan has
+ *  not confirmed is marked `pending: true`, renders as a "to be confirmed"
+ *  chip instead of a link, and turns into a live link the moment a real
+ *  value is filled in. See lib/site.ts.
  * ------------------------------------------------------------------ */
 
-export type MenuCategoryId = 'breakfast' | 'braai-mains' | 'gelato' | 'drinks';
+export interface ContactDetail {
+  label: string;
+  /** Link target. Ignored while `pending` is true. */
+  href?: string;
+  pending: boolean;
+}
 
-export type MenuTag = 'vegetarian' | 'vegan' | 'spicy' | 'gluten-free' | 'contains-nuts';
+/* ------------------------------------------------------------------ *
+ *  Menu
+ * ------------------------------------------------------------------ */
+
+export type MenuCategoryId = 'starters' | 'mains' | 'grill' | 'sides' | 'drinks' | 'desserts';
 
 export interface MenuCategory {
   id: MenuCategoryId;
   label: string;
-  /** One-line mood setter shown under the tabs when the category is active. */
-  tagline: string;
-  /** Service window shown as a chip next to the tagline. */
-  served: string;
 }
 
 export interface MenuItem {
   id: string;
   name: string;
   description: string;
-  /** Stored as a number so items stay sortable and currency stays swappable. */
-  price: number;
+  /**
+   * Held as a string, not a number, so the placeholder "$XX" is
+   * representable until Afropolitan supplies real pricing.
+   */
+  price: string;
   category: MenuCategoryId;
-  /** Path under /public — falls back to a gradient if the file is absent. */
-  image?: string;
-  tags?: MenuTag[];
-  /** Highlighted with a gold "Chef's pick" ribbon. */
+  /** Surfaced in the "Signature Favourites" section. */
   signature?: boolean;
+  image?: string;
 }
 
-export type EventCategory = 'weekly' | 'sunday' | 'special';
+/* ------------------------------------------------------------------ *
+ *  Experience + occasions
+ * ------------------------------------------------------------------ */
 
-export interface EventItem {
-  id: string;
+export type ExperienceIcon = 'dining' | 'bar' | 'grill' | 'events';
+
+export interface ExperienceCard {
+  id: ExperienceIcon;
   title: string;
-  /** ISO `YYYY-MM-DD`. */
-  date: string;
-  /** Human readable, e.g. "8:00 PM – Late". */
-  time: string;
   description: string;
-  /** Path under /public — falls back to a gradient if the file is absent. */
-  image: string;
-  category: EventCategory;
-  /** Short chip, e.g. "Live Band", "DJ Set". */
-  tag: string;
-  artist?: string;
-  /** Recurrence label, e.g. "Every Thursday". */
-  recurrence?: string;
-  /** Cover charge in USD; omit or 0 for free entry. */
-  cover?: number;
-  featured?: boolean;
+}
+
+export interface Occasion {
+  title: string;
+  description: string;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Gallery
+ * ------------------------------------------------------------------ */
+
+export type GalleryCategory = 'Food' | 'Drinks' | 'Restaurant' | 'Events' | 'Experience';
+
+export interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
+  category: GalleryCategory;
+  /** Tailwind grid spans — drives the editorial mosaic layout. */
+  span: string;
 }
 
 /* ------------------------------------------------------------------ *
@@ -61,16 +81,16 @@ export interface NavLink {
   href: string;
 }
 
-export interface OpeningHours {
-  days: string;
-  hours: string;
-  note?: string;
-}
-
-export type SocialIcon = 'instagram' | 'facebook' | 'twitter' | 'youtube';
+export type SocialIcon = 'facebook' | 'instagram' | 'tiktok';
 
 export interface SocialLink {
   label: string;
-  href: string;
   icon: SocialIcon;
+  href?: string;
+  pending: boolean;
+}
+
+export interface OpeningHours {
+  days: string;
+  hours: string;
 }

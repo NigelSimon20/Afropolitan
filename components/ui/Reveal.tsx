@@ -3,28 +3,22 @@
 import { motion, type Variants } from 'framer-motion';
 import type { ReactNode } from 'react';
 
-type Direction = 'up' | 'down' | 'left' | 'right' | 'none';
+type Direction = 'up' | 'left' | 'right' | 'none';
 
 interface RevealProps {
   children: ReactNode;
   className?: string;
-  /** Seconds to wait before the animation starts. */
   delay?: number;
   duration?: number;
   direction?: Direction;
-  /** Distance in px the element travels into place. */
   distance?: number;
-  /** Replay every time the element scrolls into view. */
-  repeat?: boolean;
-  as?: 'div' | 'section' | 'li' | 'article' | 'span';
+  as?: 'div' | 'section' | 'li' | 'article' | 'span' | 'figure';
 }
 
 const offset = (direction: Direction, distance: number) => {
   switch (direction) {
     case 'up':
       return { y: distance };
-    case 'down':
-      return { y: -distance };
     case 'left':
       return { x: distance };
     case 'right':
@@ -35,17 +29,16 @@ const offset = (direction: Direction, distance: number) => {
 };
 
 /**
- * Scroll-triggered entrance wrapper used across every section so the whole site
- * shares one motion language.
+ * Scroll-triggered entrance. Deliberately restrained — a short fade and a small
+ * rise, nothing that draws attention to itself.
  */
 export default function Reveal({
   children,
   className,
   delay = 0,
-  duration = 0.7,
+  duration = 0.9,
   direction = 'up',
-  distance = 28,
-  repeat = false,
+  distance = 24,
   as = 'div',
 }: RevealProps) {
   const MotionTag = motion[as];
@@ -62,11 +55,12 @@ export default function Reveal({
 
   return (
     <MotionTag
+      data-reveal
       className={className}
       variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: !repeat, amount: 0.25, margin: '0px 0px -80px 0px' }}
+      viewport={{ once: true, amount: 0.2, margin: '0px 0px -60px 0px' }}
     >
       {children}
     </MotionTag>

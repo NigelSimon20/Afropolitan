@@ -1,26 +1,27 @@
 import Hero from '@/components/home/Hero';
-import VibeSection from '@/components/home/VibeSection';
-import FeaturedEvents from '@/components/home/FeaturedEvents';
-import ReservationCTA from '@/components/home/ReservationCTA';
-import Marquee from '@/components/ui/Marquee';
-
-const STRIP = [
-  'Wood-fired braai',
-  'All-day breakfast',
-  'House-churned gelato',
-  'Live Afrobeat',
-  'Late bar til 3 AM',
-  'Harare, Zimbabwe',
-];
+import About from '@/components/home/About';
+import Experience from '@/components/home/Experience';
+import MenuPreview from '@/components/home/MenuPreview';
+import Signature from '@/components/home/Signature';
+import Gallery from '@/components/home/Gallery';
+import Occasions from '@/components/home/Occasions';
+import Reservations from '@/components/home/Reservations';
+import FindUs from '@/components/home/FindUs';
+import Connect from '@/components/home/Connect';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Marquee items={STRIP} />
-      <VibeSection />
-      <FeaturedEvents />
-      <ReservationCTA />
+      <About />
+      <Experience />
+      <MenuPreview />
+      <Signature />
+      <Gallery />
+      <Occasions />
+      <Reservations />
+      <FindUs />
+      <Connect />
     </>
   );
 }

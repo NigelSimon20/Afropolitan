@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --nav-height: 4.5rem;
+    --nav-height: 5rem;
   }
 
   html {
@@ -14,12 +14,14 @@
   }
 
   body {
-    @apply bg-charcoal-800 font-sans text-charcoal-100 antialiased;
+    @apply bg-ink font-sans text-softwhite antialiased;
+    /* Space for the fixed WhatsApp bar on small screens */
+    padding-bottom: env(safe-area-inset-bottom);
     text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4 {
-    @apply font-display text-cream;
+    @apply font-display font-light;
     text-wrap: balance;
   }
 
@@ -28,46 +30,49 @@
   }
 
   ::selection {
-    @apply bg-terracotta-500 text-cream;
+    @apply bg-teal-500 text-white;
   }
 
-  /* Dark, unobtrusive scrollbar to match the room */
   ::-webkit-scrollbar {
     width: 10px;
-    height: 10px;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-charcoal-900;
+    @apply bg-dark;
   }
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-charcoal-600;
+    @apply bg-teal-700;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-terracotta-600;
+    @apply bg-teal-500;
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-gold-400 ring-offset-2 ring-offset-charcoal-800;
+    @apply outline-none ring-2 ring-teal-400 ring-offset-2 ring-offset-ink;
   }
 }
 
 @layer components {
   .section {
-    @apply py-20 sm:py-24 lg:py-32;
+    @apply py-24 sm:py-28 lg:py-36;
   }
 
-  /* Small all-caps label that sits above a section heading */
+  /* Small all-caps label sitting above a serif heading */
   .eyebrow {
-    @apply inline-flex items-center gap-2 font-sans text-[0.7rem] font-semibold uppercase tracking-eyebrow text-gold-400;
+    @apply inline-flex items-center gap-3 font-sans text-[0.68rem] font-medium uppercase tracking-eyebrow text-teal-300;
   }
 
-  .text-gradient-gold {
-    @apply bg-gold-sheen bg-clip-text text-transparent;
+  /* The signature teal hairline used as a section marker */
+  .rule {
+    @apply block h-px w-14 bg-teal-500;
   }
 
-  /* Hairline card surface used across menu / event tiles */
-  .surface {
-    @apply rounded-2xl border border-white/5 bg-charcoal-700/60 backdrop-blur-sm;
+  /* Serif section heading */
+  .h-display {
+    @apply font-display text-4xl font-light leading-[1.06] sm:text-5xl lg:text-6xl;
+  }
+
+  .lead {
+    @apply max-w-prose text-[0.95rem] font-light leading-[1.85] text-greyline sm:text-base;
   }
 
   .hide-scrollbar {
@@ -80,15 +85,23 @@
 }
 
 @layer utilities {
-  /* Film-grain overlay for hero / feature sections */
-  .grain-overlay::after {
+  /* Film grain over cinematic imagery */
+  .grain::after {
     content: '';
-    @apply pointer-events-none absolute inset-0 bg-grain opacity-[0.045] mix-blend-overlay;
+    @apply pointer-events-none absolute inset-0 bg-grain opacity-[0.05] mix-blend-overlay;
   }
 
-  .mask-fade-b {
-    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  /* Underline that draws in from the left on hover */
+  .link-underline {
+    @apply relative;
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-teal-400 transition-transform duration-500 ease-silk;
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    @apply origin-left scale-x-100;
   }
 }
 
@@ -96,11 +109,18 @@
   html {
     scroll-behavior: auto;
   }
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  /*
+   * Scroll-reveal entrances are inline styles written by Framer Motion, so CSS
+   * has to override them explicitly. Without this, anyone browsing with reduced
+   * motion sees the pre-animation state — i.e. invisible content.
+   */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

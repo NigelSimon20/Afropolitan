@@ -3,49 +3,69 @@ import Reveal from './Reveal';
 
 interface SectionHeadingProps {
   eyebrow?: string;
+  /** Rendered in caps as the first line. */
   title: string;
-  /** Rendered in gold immediately after the title — use for the accent phrase. */
-  accent?: string;
+  /** Serif italic second line, e.g. "Restaurant Bar & Grill". */
+  subtitle?: string;
   description?: string;
   align?: 'left' | 'center';
+  tone?: 'dark' | 'light';
   className?: string;
 }
 
 export default function SectionHeading({
   eyebrow,
   title,
-  accent,
+  subtitle,
   description,
   align = 'left',
+  tone = 'dark',
   className,
 }: SectionHeadingProps) {
+  const centred = align === 'center';
+
   return (
-    <div
-      className={cn(
-        'max-w-2xl',
-        align === 'center' && 'mx-auto text-center',
-        className,
-      )}
-    >
+    <div className={cn('max-w-2xl', centred && 'mx-auto text-center', className)}>
       {eyebrow ? (
         <Reveal delay={0.05}>
-          <span className="eyebrow">
-            <span className="h-px w-6 bg-gold-400/60" aria-hidden />
+          <span className={cn('eyebrow', centred && 'justify-center')}>
+            <span className="h-px w-8 bg-teal-400/70" aria-hidden />
             {eyebrow}
           </span>
         </Reveal>
       ) : null}
 
       <Reveal delay={0.12}>
-        <h2 className="mt-4 text-3xl font-bold leading-[1.05] tracking-tight sm:text-4xl lg:text-5xl">
+        <h2
+          className={cn(
+            'mt-6 font-display text-4xl font-light uppercase leading-[1.05] tracking-[0.02em] sm:text-5xl lg:text-[3.5rem]',
+            tone === 'dark' ? 'text-white' : 'text-ink',
+          )}
+        >
           {title}
-          {accent ? <span className="text-gradient-gold"> {accent}</span> : null}
         </h2>
       </Reveal>
 
+      {subtitle ? (
+        <Reveal delay={0.18}>
+          <p
+            className={cn(
+              'mt-3 font-display text-xl font-light italic sm:text-2xl',
+              tone === 'dark' ? 'text-teal-200' : 'text-teal-600',
+            )}
+          >
+            {subtitle}
+          </p>
+        </Reveal>
+      ) : null}
+
+      <Reveal delay={0.24}>
+        <span className={cn('rule mt-8', centred && 'mx-auto')} />
+      </Reveal>
+
       {description ? (
-        <Reveal delay={0.2}>
-          <p className="mt-5 text-base leading-relaxed text-charcoal-200/80 sm:text-lg">
+        <Reveal delay={0.3}>
+          <p className={cn('lead mt-8', centred && 'mx-auto', tone === 'light' && 'text-ink/60')}>
             {description}
           </p>
         </Reveal>
