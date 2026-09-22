@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --nav-height: 4.5rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-height);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-charcoal-800 font-sans text-charcoal-100 antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display text-cream;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    @apply bg-terracotta-500 text-cream;
+  }
+
+  /* Dark, unobtrusive scrollbar to match the room */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-charcoal-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-charcoal-600;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-terracotta-600;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold-400 ring-offset-2 ring-offset-charcoal-800;
+  }
+}
+
+@layer components {
+  .section {
+    @apply py-20 sm:py-24 lg:py-32;
+  }
+
+  /* Small all-caps label that sits above a section heading */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-sans text-[0.7rem] font-semibold uppercase tracking-eyebrow text-gold-400;
+  }
+
+  .text-gradient-gold {
+    @apply bg-gold-sheen bg-clip-text text-transparent;
+  }
+
+  /* Hairline card surface used across menu / event tiles */
+  .surface {
+    @apply rounded-2xl border border-white/5 bg-charcoal-700/60 backdrop-blur-sm;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  /* Film-grain overlay for hero / feature sections */
+  .grain-overlay::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 bg-grain opacity-[0.045] mix-blend-overlay;
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
